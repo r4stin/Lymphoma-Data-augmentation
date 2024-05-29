@@ -8,11 +8,13 @@ A classic problem in the classification of medical images is the small number of
 1.Create and navigate to the Dataset directory:
 
 	$ mkdir Dataset && cd Dataset
+
 2. Move your dataset file (dataset.mat) into the Dataset directory.
 
 3. Navigate back to the root directory:
 
 	$ cd ..
+
 4. Apply your desired approach between APP1 - APP8.
 
 
