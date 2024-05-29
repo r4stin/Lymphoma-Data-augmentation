@@ -13,7 +13,7 @@ A classic problem in the classification of medical images is the small number of
 
 3. Navigate back to the root directory:
 
-	$ cd ..
+	$cd ..
 
 4. Apply your desired approach between APP1 - APP8.
 
@@ -24,8 +24,8 @@ To run the script with specific parameters, use one of the following commands:
 
 With augmentation:	
 
-	$ python main.py --batch_size 32 --transform APP1 --epochs 100 --learning_rate 0.0001 --augment True
+	$python main.py --batch_size 32 --transform APP1 --epochs 100 --learning_rate 0.0001 --augment True
 
 Without augmentation:
 
-	$python main.py --batch_size 32 --transform APP1 --epochs 100 --learning_rate 0.0001 --augment False
+	$ python test.py --batch_size 32 --epochs 100 --learning_rate 0.0001 --augment False
