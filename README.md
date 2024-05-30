@@ -30,11 +30,18 @@ Without augmentation:
 
 	$ python main.py --batch_size 32 --epochs 100 --learning_rate 0.0001 --augment False
 
+** Alternative Way Using Jupyter Notebook **
+
+1. Follow steps 1 - 3 from instrusction.
+
+2. In main.ipynd replace "APP1" with your desired approach.
+
+
 
 Note: The default values are:
 
-	batch_size: 32
+	batch size: 32
 	epochs: 100
-	learning_rate: 0.0001
+	learning rate: 0.0001
 
-You can modify the batch_size, number of epochs, and learning_rate as needed.
+You can modify the batch size, number of epochs, and learning rate as needed.
