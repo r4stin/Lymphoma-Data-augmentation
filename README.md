@@ -46,7 +46,7 @@ Note: The default values are:
 
 - You can modify the batch size, number of epochs, and learning rate as needed.
 
-- To install the necessary Python libraries for this project, you can use the Python package manager, pip. Run the following command in your terminal:
+- To install the necessary Python libraries for this project, you can run the following command in your terminal:
 
         $ pip install argparse importlib sklearn scipy pytorch-lightning torchvision torch numpy matplotlib
 
