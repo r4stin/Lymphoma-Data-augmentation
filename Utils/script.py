@@ -1,13 +1,17 @@
+"""
+    This script is used to create a custom dataset and dataloader for the model.
+    The dataset is created using the CustomDataset class, which inherits from the PyTorch Dataset class.
+    The CustomDataset class takes the images and labels as input and applies the specified transformations and augmentations.
+    The MyDataModule class is used to create the train, validation, and test dataloaders using the CustomDataset class.
+    The setup method in the MyDataModule class loads the dataset and splits it into train, validation, and test sets.
+    The train_dataloader, val_dataloader, and test_dataloader methods return the dataloaders for training, validation, and testing.
+
+"""
+
 import scipy.io as sio
-import torch
-import matplotlib.pyplot as plt
-import torch
 import torchvision
 import torch
-import torch.nn as nn
-import torch.optim as optim
 from torch.utils.data import DataLoader, Dataset, ConcatDataset
-from torchvision import models
 import torch.nn.functional as F
 from sklearn.model_selection import train_test_split
 import random
@@ -36,32 +40,23 @@ class CustomDataset(Dataset):
         if self.augment == True:
             if idx < len(self.images):
                 # Original image
-                image_pil = TF.to_pil_image(self.images[idx])
-                if image_pil is None:
-                    raise ValueError(f"Failed to convert augmented image at index {idx} to PIL Image.")
-
-                image = TF.resize(image_pil, (256, 256))
-                image = transforms.CenterCrop(224)(image)
-
-                image = TF.to_tensor(image)
-
+                image = TF.to_tensor(self.images[idx])
+                image = transforms.RandomCrop(224)(image)
                 label = self.labels[idx] - 1
+
             else:
                 # Augmented image
                 original_idx = idx - len(self.images)
                 image = self.images[original_idx % len(self.images)]
                 label = self.labels[original_idx % len(self.images)] - 1
 
-                # Apply random augmentation
+                # Apply augmentation approach
                 augmentation = self.augmentations[original_idx // len(self.images)]
                 image = augmentation(image)
 
         else:
-            # Without Augmentation Just basic Pre-proccessing
-            image_pil = TF.to_pil_image(self.images[idx])
-            image = TF.resize(image_pil, (256, 256))
-            image = transforms.CenterCrop(224)(image)
-            image = TF.to_tensor(image)
+            # Without Augmentation for testing
+            image = TF.to_tensor(self.images[idx])
             label = self.labels[idx] - 1
 
         return image, label
@@ -76,21 +71,23 @@ class MyDataModule(L.LightningDataModule):
 
     def setup(self):
         # Dataset Path
-        data = sio.loadmat('/Dataset/DatasColor_29.mat')
+        data = sio.loadmat('./Dataset/DatasColor_29.mat')
 
         datas = data['DATA'][0][0][0]
         labels = data['DATA'][0][1][0]
+        # Test size is 20% of the data ~ 75 samples
         test_size = 0.2
+
         self.X_train, self.X_test, self.y_train, self.y_test = train_test_split(datas, labels, test_size=test_size,
                                                                                 random_state=42)
-
         self.train_dataset = CustomDataset(self.X_train, self.y_train, transform=self.transform, augment=self.augment)
-        self.test_dataset = CustomDataset(self.X_test, self.y_test, transform=self.transform)
+        self.test_dataset = CustomDataset(self.X_test, self.y_test)
+        # Validation size is 20% of the training data
         self.train_dataset, self.val_dataset = torch.utils.data.random_split(self.train_dataset, [0.8, 0.2])
 
-        print("len train: ", len(self.train_dataset))
-        print("len val: ", len(self.val_dataset))
-        print("len test: ", len(self.test_dataset))
+        print("Size of train dataset: ", len(self.train_dataset))
+        print("Size of validation dataset: ", len(self.val_dataset))
+        print("Size of test dataset: ", len(self.test_dataset))
 
     def train_dataloader(self):
         return DataLoader(self.train_dataset, batch_size=self.batch_size, shuffle=True)
@@ -100,5 +97,3 @@ class MyDataModule(L.LightningDataModule):
 
     def test_dataloader(self):
         return DataLoader(self.test_dataset, batch_size=self.batch_size, shuffle=False)
-
-
