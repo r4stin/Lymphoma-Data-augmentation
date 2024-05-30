@@ -46,4 +46,4 @@ Note: The default values are:
 
 You can modify the batch size, number of epochs, and learning rate as needed.
 
-You can access the weights of all the top models [here](https://bit.ly/Lymphoma-project-weights)
+You can access the BEST weights of all models [here](https://bit.ly/Lymphoma-project-weights)
