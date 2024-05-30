@@ -74,7 +74,7 @@ if __name__ == '__main__':
 
     for model in Models.models:
         print(f'Training {model.__name__} model with {transform} transformation')
-        model_path = f'Weights/{transform}/{model.__name__}_{transform}.pth'
+        model_path = f'./Weights/{model.__name__}_{transform}.pth'
         model = model()
         tt = Train_Test(NUM_EPOCHS, model, train_loader, val_loader, test_loader, model_path)
         tt.setup(learning_rate)
