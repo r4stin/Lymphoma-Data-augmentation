@@ -45,3 +45,5 @@ Note: The default values are:
 	learning rate: 0.0001
 
 You can modify the batch size, number of epochs, and learning rate as needed.
+
+You can access the weights of all the top models [here](https://bit.ly/Lymphoma-project-weights)
